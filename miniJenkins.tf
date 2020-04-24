@@ -36,3 +36,17 @@ resource "aws_security_group" "miniJenkins_allow_http_ssh" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+
+resource "aws_instance" "web" {
+  ami		= "data.aws_ami.amazon-linux-2.id"
+  instance_type = "t2.micro"
+  security_groups = ["${aws_security_group.miniJenkins_allow_http_ssh.name}"]
+
+  tags = {
+    Name = "HelloWorld"
+  }
+}
+
+output "IP" {
+  value = "${aws_instance.web.public_ip}"
+}
