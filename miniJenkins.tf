@@ -2,14 +2,20 @@ provider "aws" {
   region     = "us-east-1"
 }
 
-data "aws_ami" "linux2_ami" {
-  owners = ["099720109477"]
+data "aws_ami" "amazon-linux-2" {
+  owners = [ "amazon" ]
   most_recent = true
 
   filter {
-    name   = "name"
-    values = ["ubuntu/images/ubuntu-*-*-amd64-server-*"]
+    name   = "owner-alias"
+    values = [ "amazon" ]
   }
+
+  filter {
+    name   = "name"
+    values = [ "amzn2-ami-hvm*" ]
+  }
+
 }
 
 resource "aws_security_group" "miniJenkins_allow_http_ssh" {
