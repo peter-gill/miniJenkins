@@ -1,0 +1,27 @@
+{
+  "variables": {
+    "aws_access_key": "",
+    "aws_secret_key": ""
+  },
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "access_key": "{{user `aws_access_key`}}",
+      "secret_key": "{{user `aws_secret_key`}}",
+      "region": "us-east-1",
+      "source_ami" : "ami-0915e09cc7ceee3ab",
+      "instance_type": "t2.micro",
+      "ssh_username": "{{user `ssh_username`}}",
+      "ami_name": "packer-linux2 {{timestamp}}",
+	  "tags":{
+		"Name": "Linux 2 - {{timestamp}}"
+	  }
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "script": "./bin/jenkins.sh" 
+    }
+  ]
+}
